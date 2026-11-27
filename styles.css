@@ -1,0 +1,427 @@
+:root {
+    --ink: #494949;
+    --surface: #D6D6D6;
+    --desktop: #CBCBCB;
+    --bar-radius: 12px;
+    --control-radius: 12px;
+    --window-radius: 18px;
+    --page-gutter: clamp(6px, 0.8vw, 12px);
+    --header-inset: clamp(5px, 0.7vw, 8px);
+    --ease-out-quad: cubic-bezier(0.333333, 0.666667, 0.666667, 1);
+    --ease-out-cubic: cubic-bezier(0.333333, 1, 0.666667, 1);
+    --ease-in-cubic: cubic-bezier(0.333333, 0, 0.666667, 0);
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    min-height: 100vh;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    padding: var(--page-gutter);
+    background: var(--desktop);
+    color: var(--ink);
+    font: 1rem/1.5 Arial, sans-serif;
+}
+
+button,
+input {
+    color: inherit;
+    font: inherit;
+}
+
+a {
+    color: inherit;
+}
+
+:focus-visible {
+    outline: 2px solid var(--ink);
+    outline-offset: 3px;
+}
+
+.site-header {
+    --header-control-size: 3rem;
+
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--header-inset);
+    padding: var(--header-inset);
+    border: 1px solid var(--ink);
+    border-radius: calc(var(--control-radius) + var(--header-inset) + 1px);
+    background: var(--surface);
+}
+
+.site-header nav {
+    display: flex;
+    gap: var(--header-inset);
+}
+
+.site-header .control-face {
+    min-height: var(--header-control-size);
+    padding-inline: clamp(0.6em, 3vw, 0.9em);
+}
+
+.control {
+    display: inline-flex;
+    padding: 0;
+    border: 0;
+    border-radius: var(--control-radius);
+    background: transparent;
+    text-decoration: none;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.control-face {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    min-height: 2.5rem;
+    padding: 0.4em 0.9em;
+    border: 1px solid var(--ink);
+    border-radius: inherit;
+    background: var(--desktop);
+    text-align: center;
+    pointer-events: none;
+    transition: transform 150ms var(--ease-out-quad);
+}
+
+/* Scale the face inside the control so the original hit area stays in place. */
+.control:active:not(:disabled) > .control-face {
+    transform: scale(0.9375);
+    transition-duration: 90ms;
+}
+
+@media (hover: hover) {
+    .control:active:not(:hover) > .control-face {
+        transform: none;
+        transition-duration: 150ms;
+    }
+}
+
+.logo {
+    width: var(--header-control-size);
+    flex: none;
+}
+
+.logo .control-face {
+    padding: 3px;
+}
+
+.logo img {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+.tab-link,
+.auth-trigger {
+    font-size: 0.9375rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+}
+
+.auth-trigger {
+    margin-inline-start: auto;
+}
+
+.site-header [aria-current="page"] > .control-face,
+.auth-trigger[aria-expanded="true"] > .control-face {
+    background: var(--surface);
+    outline: 1px solid var(--ink);
+    outline-offset: -3px;
+}
+
+.control-primary {
+    font-weight: 600;
+}
+
+.control:disabled {
+    cursor: wait;
+}
+
+.page-main {
+    flex: 1;
+    display: grid;
+    place-items: center;
+    padding-block: clamp(2.5rem, 8vh, 6rem);
+}
+
+.desktop-window {
+    width: min(100%, 43rem);
+}
+
+.window-bar,
+.window-body {
+    border: 1px solid var(--ink);
+}
+
+.window-bar {
+    display: grid;
+    place-items: center;
+    min-height: 2.375rem;
+    margin: 0 0 6px;
+    border-radius: var(--bar-radius);
+    background: var(--desktop);
+    text-align: center;
+}
+
+.window-title {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+}
+
+.window-body {
+    padding: clamp(1.25rem, 5vw, 3rem);
+    border-radius: var(--window-radius);
+    background: var(--surface);
+}
+
+.page-heading {
+    margin: 0;
+    text-align: center;
+    font-size: clamp(2.5rem, 8vw, 5rem);
+    font-weight: 600;
+    line-height: 1.05;
+    letter-spacing: -0.035em;
+}
+
+.placeholder-label {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+}
+
+.download-card,
+.placeholder-body {
+    display: grid;
+    justify-items: center;
+    gap: 1.5rem;
+    text-align: center;
+}
+
+.download-card {
+    width: min(23rem, calc(100% - 2rem));
+    gap: 0.75rem;
+}
+
+.download-logo {
+    display: block;
+    width: clamp(6.5rem, 24vw, 10rem);
+    height: auto;
+}
+
+.download-title {
+    margin: 0;
+    font-size: clamp(1.5rem, 5vw, 2.25rem);
+    font-weight: 600;
+    line-height: 1.2;
+}
+
+.download-button {
+    margin-block-start: clamp(1.25rem, 3vw, 2rem);
+    font-size: 1.125rem;
+    font-weight: 600;
+}
+
+.download-button > .control-face {
+    min-height: 3rem;
+    padding-inline: 1.5em;
+}
+
+.placeholder-body p {
+    margin: 0;
+}
+
+body.auth-open {
+    overflow: hidden;
+}
+
+.auth-window {
+    width: min(27.5rem, calc(100% - 24px));
+    max-width: none;
+    max-height: calc(100% - 16px);
+    margin: auto;
+    padding: 4px 6px 8px 4px;
+    border: 0;
+    background: transparent;
+    color: var(--ink);
+}
+
+.auth-window[open] {
+    animation: open-window 200ms var(--ease-out-cubic);
+}
+
+.auth-window::backdrop {
+    background: transparent;
+}
+
+@keyframes open-window {
+    from {
+        transform: scale(0);
+    }
+}
+
+@supports (overlay: auto) and (transition-behavior: allow-discrete) {
+    .auth-window {
+        pointer-events: none;
+        transform: scale(0);
+        transition: transform 200ms var(--ease-in-cubic),
+                    display 200ms allow-discrete,
+                    overlay 200ms allow-discrete;
+    }
+
+    .auth-window[open] {
+        pointer-events: auto;
+        transform: scale(1);
+        animation: none;
+        transition-timing-function: var(--ease-out-cubic), linear, linear;
+    }
+
+    @starting-style {
+        .auth-window[open] {
+            transform: scale(0);
+        }
+    }
+}
+
+.auth-window .window-bar {
+    grid-template-columns: 2rem minmax(0, 1fr) 2rem;
+    gap: 4px;
+    padding: 4px;
+    box-shadow: 3px 4px var(--ink);
+}
+
+.auth-window .window-title {
+    grid-column: 2;
+}
+
+.window-close {
+    width: 2rem;
+    border-radius: calc(var(--bar-radius) - 5px);
+}
+
+.window-close > .control-face {
+    display: grid;
+    place-items: center;
+    min-height: 2rem;
+    padding: 0;
+}
+
+.window-close > .control-face::before,
+.window-close > .control-face::after {
+    grid-area: 1 / 1;
+    width: 0.875rem;
+    height: 2px;
+    border-radius: 1px;
+    background: currentColor;
+    content: "";
+    transform: rotate(45deg);
+}
+
+.window-close > .control-face::after {
+    transform: rotate(-45deg);
+}
+
+.auth-window .window-body {
+    padding: clamp(0.875rem, 4vw, 1.25rem);
+    box-shadow: 4px 6px var(--ink);
+}
+
+.auth-form,
+.auth-field,
+.account-menu-list {
+    display: grid;
+    gap: 0.75rem;
+}
+
+.auth-field {
+    gap: 0.25rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+}
+
+.auth-field input {
+    width: 100%;
+    min-height: 2.5rem;
+    padding: 0.45em 0.65em;
+    border: 1px solid var(--ink);
+    border-radius: 8px;
+    background: var(--desktop);
+    font-size: 1rem;
+    font-weight: 400;
+    letter-spacing: normal;
+}
+
+.auth-provider-separator,
+.auth-mode-switch {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    font-size: 0.875rem;
+}
+
+.auth-provider-separator::before,
+.auth-provider-separator::after {
+    flex: 1;
+    border-top: 1px solid var(--ink);
+    content: "";
+}
+
+.auth-mode-switch {
+    flex-wrap: wrap;
+}
+
+.auth-mode-toggle > .control-face {
+    min-height: 2.125rem;
+}
+
+.account-copy {
+    margin: 0 0 0.75rem;
+}
+
+.auth-feedback,
+.account-feedback {
+    margin: 0;
+    font-size: 0.875rem;
+    overflow-wrap: anywhere;
+}
+
+.account-feedback:not(:empty) {
+    margin-top: 0.75rem;
+}
+
+.auth-feedback:empty {
+    position: absolute;
+}
+
+.auth-feedback[data-state="error"],
+.account-feedback[data-state="error"] {
+    border-inline-start: 2px solid var(--ink);
+    padding-inline-start: 0.5rem;
+    font-weight: 600;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .control-face,
+    .control:active:not(:disabled) > .control-face {
+        transform: none;
+        transition: none;
+    }
+
+    .auth-window,
+    .auth-window[open] {
+        animation: none;
+        transition: none;
+    }
+}
